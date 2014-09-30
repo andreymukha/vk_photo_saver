@@ -88,9 +88,9 @@ if (isset($_REQUEST['code'])) {
     }
   }
 
-//  echo '<pre>';
-//  print_r($da);
-//  echo '</pre>';
+  echo '<pre>';
+  print_r($da);
+  echo '</pre>';
 }
 else {
   header('Location: login.php');
