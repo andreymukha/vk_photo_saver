@@ -8,6 +8,8 @@
 
 define('APP_ID', 3110087); //ID приложения
 define('CLIENT_SECRET', 'qJCagpPwpyBWuM9ClRNi'); //Секретный ключ в приложении
-define('HOST', $_SERVER['SERVER_NAME'] == basename(dirname(__FILE__)) ? $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_NAME'] .'/'. basename(dirname(__FILE__))); //Имя хоста
+define('CALLBACK', 'callback.php');
+define('SERVER_NAME', $_SERVER['SERVER_NAME'] == basename(dirname(__FILE__)) ? $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'] : $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'] .'/'. basename(dirname(__FILE__))); //Имя хоста
+define('API_VER', '5.25');
 
 session_start();

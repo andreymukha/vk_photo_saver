@@ -6,38 +6,32 @@
  * Time: 3:22
  */
 
+require_once 'config.php';
+
 //define('USER_ID', 26538964); //341 - Яна Абышова
-//define('USER_ID', 14670387); //221 - Сергей Врублевский
+define('USER_ID', 14670387); //221 - Сергей Врублевский
 //define('USER_ID', 17829185); //211 - Юля Швед
 //define('USER_ID', 15906596); //228 - Дмитрий Болбас
 //define('USER_ID', 18661298); //205 - Никита Митюшников
-define('USER_ID', 5820095);
 
-// Получаем Access Token
-function getAccesstoken() {
-  $client_id = 3110087;
-  $client_secret = 'qJCagpPwpyBWuM9ClRNi';
-  $redirect_uri = 'http://tester.loc/vk_photo_saver/index.php';
-  $access_token_json = 'https://oauth.vk.com/access_token?client_id=' . $client_id . '&client_secret=' . $client_secret . '&code=' . $_REQUEST['code'] . '&redirect_uri=' . $redirect_uri;
-  $access_token = json_decode(file_get_contents($access_token_json));
-  return $access_token->access_token;
-}
+//define('USER_ID', 5820095);
+
 
 // Получаем фотографии
-function getPhoto($offset = 0, $access_token) {
+function getPhoto($offset = 0) {
   $extended = 0;
   $count = 200;
   $photo_sizes = 0;
   $no_service_albums = 0;
-//  $access_token = getAccesstoken();
-  $photos_getAll_json = 'https://api.vk.com/method/photos.getAll?owner_id=' . USER_ID . '&extended=' . $extended . '&offset=' . $offset . '&count=' . $count . '&photo_sizes=' . $photo_sizes . '&no_service_albums=' . $no_service_albums . '&access_token=' . $access_token;
+
+  $photos_getAll_json = 'https://api.vk.com/method/photos.getAll?owner_id=' . USER_ID . '&extended=' . $extended . '&offset=' . $offset . '&count=' . $count . '&photo_sizes=' . $photo_sizes . '&no_service_albums=' . $no_service_albums . '&access_token=' . $_SESSION['access_token'];
   $photos_getAll = json_decode(file_get_contents($photos_getAll_json), TRUE);
   return $photos_getAll;
 }
 
-if (isset($_REQUEST['code'])) {
-  $access_token = getAccesstoken();
-  $get_photo_count = getPhoto(0, $access_token)['response'][0];
+if (isset($_SESSION['access_token'])) {
+  //Общее количество фото
+  $get_photo_count = getPhoto(0)['response'][0];
   //Получаем информацию о пользователе и создаём папку
   $users_get_json = 'https://api.vk.com/method/users.get?user_ids=' . USER_ID;
   $users_get = json_decode(file_get_contents($users_get_json), TRUE);
@@ -52,7 +46,7 @@ if (isset($_REQUEST['code'])) {
   }
 
   for ($i = 0; $i < ceil($get_photo_count / 200); $i++) {
-    $photos_getAll = getPhoto($i * 200, $access_token);
+    $photos_getAll = getPhoto($i * 200);
     foreach ($photos_getAll['response'] as $dat) {
       if (isset($dat[0])) {
         continue;
