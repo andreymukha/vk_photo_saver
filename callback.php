@@ -9,9 +9,6 @@
 require_once 'config.php';
 
 if (isset($_REQUEST['code'])) {
-  $redirect_uri = 'http://tester.loc/vk_photo_saver/index.php';
-
-//  $access_token_json = 'https://oauth.vk.com/access_token?client_id=' . APP_ID . '&client_secret=' . CLIENT_SECRET . '&code=' . $_REQUEST['code'] . '&redirect_uri=' . $redirect_uri;
   $access_token_json = 'https://oauth.vk.com/access_token?client_id=' . APP_ID . '&client_secret=' . CLIENT_SECRET . '&code=' . $_REQUEST['code'];
   $access_token = json_decode(file_get_contents($access_token_json));
   $_SESSION['access_token'] = $access_token->access_token;

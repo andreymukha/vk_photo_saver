@@ -8,7 +8,7 @@
 
 require_once 'config.php';
 
-$scope = 'photo,friends';
+$scope = 'photos,friends';
 $redirect_uri = 'http://tester.loc/vk_photo_saver/index.php';
 
 $url = 'http://oauth.vk.com/authorize?client_id='.APP_ID.'&scope='.$scope.'&redirect_uri='.SERVER_NAME.'/'.CALLBACK.'&response_type=code&v='.API_VER;
